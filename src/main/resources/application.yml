@@ -1,0 +1,75 @@
+server:
+  port: 8082
+  servlet:
+    contextPath: /ecoOrders
+  tomcat:
+    accesslog:
+      enabled: true
+
+spring:
+#   datasource:
+#     url: jdbc:h2:tcp://localhost/~/jpashop
+#     username: sa
+#     password: 
+#     driver-class-name: org.h2.Driver
+  datasource:
+    url: jdbc:mysql://localhost:3306/ecoorder?serverTimezone=Asia/Seoul
+    username: root
+    password: rootroot
+    driver-class-name: com.mysql.cj.jdbc.Driver  #com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+        # streams:
+        #   binder:
+        #     configuration:
+        #       default:
+        #         key:
+        #           serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        #         value:
+        #           serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      bindings:
+        event-in:
+          group: ecoorder
+          destination: ecomarket
+          contentType: application/json
+        event-out:
+          destination: ecomarket
+          contentType: application/json
+          
+kafka:
+  bootstrap-servers: localhost:9092
+  consumer:
+    key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    group.id: ecoorder
+    auto.offset.reset: earliest
+  producer:
+    key.serializer: org.apache.kafka.common.serialization.StringSerializer
+    value.serializer: org.apache.kafka.common.serialization.StringSerializer
+
+feign:
+  hystrix:
+    enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        
+logging:
+  level:
+    '[org.hibernate.sql]': debug
+    '[org.hibernate.type]': trace
+    '[com.scoding.ecoorder]': debug
