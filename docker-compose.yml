@@ -1,0 +1,21 @@
+version: "3"
+services:
+  mysql:
+    # 컨테이너 이름을 주고 싶다면 작성한다
+    # container_name: test_database
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ecoorder
+      MYSQL_ROOT_PASSWORD: rootpwd
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 3307:3307 
+
+  ecoorder:
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_PROFILES_3ACTIVE=docker
+    depends_on:
+      - mysql

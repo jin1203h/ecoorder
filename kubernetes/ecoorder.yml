@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecoorder
+  namespace: ecomarket
+  labels:
+    app: ecoorder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ecoorder
+  template:
+    metadata:
+      labels:
+        app: ecoorder
+    spec:
+      containers:
+        - name: ecoorder
+          # image: 104844728320.dkr.ecr.ap-northeast-2.amazonaws.com/ecoorder:latest
+          image: AWS_ECR_URI
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+          # livenessProbe:
+          #   httpGet:
+          #     path: '/ecoOrders/actuator/health'
+          #     port: 8082
+          #   initialDelaySeconds: 5
+          #   timeoutSeconds: 2
+          #   periodSeconds: 5
+          #   failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecoorder-svc
+  namespace: ecomarket
+  labels:
+    app: ecoorder
+spec:
+  ports:
+    - port: 80
+      targetPort: 8082
+  selector:
+    app: ecoorder
+  type: NodePort
+  #type: LoadBalancer
