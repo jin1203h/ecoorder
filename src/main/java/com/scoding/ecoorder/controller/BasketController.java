@@ -51,7 +51,6 @@ public class BasketController {
 
         basketService.addBasket(basketDTO);
 
-        // return ResponseEntity.ok().body(basketDTO);
         return new ResponseEntity<>(basketDTO, HttpStatus.CREATED);
     }
     
@@ -60,7 +59,6 @@ public class BasketController {
 
         basketService.deleteBasket(basketId);
 
-        // return ResponseEntity.ok().body(basketDTO);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
