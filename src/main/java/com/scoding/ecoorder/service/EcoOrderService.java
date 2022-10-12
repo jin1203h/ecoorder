@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.scoding.ecoorder.adapter.EcoOrderProducer;
+import com.scoding.ecoorder.adapter.EcoPointClient;
 import com.scoding.ecoorder.domain.EcoOrder;
 import com.scoding.ecoorder.domain.EcoOrderItem;
 import com.scoding.ecoorder.domain.Payment;
@@ -20,6 +22,7 @@ import com.scoding.ecoorder.domain.event.PaymentCompleted;
 import com.scoding.ecoorder.repository.EcoOrderRepository;
 import com.scoding.ecoorder.rest.dto.EcoOrderDTO;
 import com.scoding.ecoorder.rest.dto.EcoOrderItems;
+import com.scoding.ecoorder.rest.dto.EcoPointDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +35,7 @@ public class EcoOrderService {
     
     private final EcoOrderRepository ecoOrderRepository;
     private final EcoOrderProducer ecoOrderProducer;
+    private final EcoPointClient ecoPointClient;
     
     @Transactional
     public Long ecoOrder(EcoOrderDTO ecoOrderDTO) {
@@ -127,9 +131,19 @@ public class EcoOrderService {
 
     public List<EcoOrder> findEcoOrder(Long memberId) {
 
+        ResponseEntity<EcoPointDTO> ecoPointDTO = ecoPointClient.getEcoPointList(memberId);
+        log.debug("ecoPoint = ({})", ecoPointDTO.getBody().toString());
+        log.debug("ecoPoint = ({})", ecoPointDTO.getBody().getEcoPoint());
+
         List<EcoOrder> ecoOrder = ecoOrderRepository.findByMemberlWithPayment(memberId);
 
         return ecoOrder;
     }
 
+    public ResponseEntity<EcoPointDTO> findEcoPoint(Long memberId) {
+
+        ResponseEntity<EcoPointDTO> ecoPointDTO = ecoPointClient.getEcoPointList(memberId);
+
+        return ecoPointDTO;
+    }
 }

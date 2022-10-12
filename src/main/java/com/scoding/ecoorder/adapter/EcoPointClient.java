@@ -9,10 +9,10 @@ import com.scoding.ecoorder.config.FeignConfiguration;
 import com.scoding.ecoorder.rest.dto.EcoPointDTO;
 
 
-@FeignClient(name="ecoPoint", configuration = {FeignConfiguration.class})
+@FeignClient(name="ecoPoint", url = "http://k8s-ecomarke-ecomarke-58be675e99-1138815434.ap-northeast-2.elb.amazonaws.com", configuration = {FeignConfiguration.class})
 public interface EcoPointClient {
 
     @GetMapping("/ecoPoint/{memberId}")
-    ResponseEntity<EcoPointDTO> findEcoPoint(@PathVariable("memberId") Long memberId);
+    ResponseEntity<EcoPointDTO> getEcoPointList(@PathVariable("memberId") Long memberId);
     
 }

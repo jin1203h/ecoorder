@@ -42,7 +42,7 @@ public class EcoOrder {
     private Long ecoPoint;
 
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus deliveryStatus; // READY, COMP
+    private DeliveryStatus deliveryStatus; // READY, START, COMP
 
     @OneToMany(mappedBy = "ecoOrder", cascade = CascadeType.ALL)
     private List<EcoOrderItem> ecoOrderItems = new ArrayList<>();
@@ -89,8 +89,8 @@ public class EcoOrder {
 
     // cancel order
     public void cancel() {
-        if (deliveryStatus == DeliveryStatus.COMP) {
-            throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
+        if (deliveryStatus == DeliveryStatus.START) {
+            throw new IllegalStateException("이미 배송이 시작된 상품은 취소가 불가능합니다.");
         }
 
         this.setEcoOrderStatus(OrderStatus.CANCLE);
@@ -98,10 +98,10 @@ public class EcoOrder {
 
     }
 
-    // cancel order
+    // update order
     public void updateDelivery() {
 
-        this.setDeliveryStatus(DeliveryStatus.COMP);
+        this.setDeliveryStatus(DeliveryStatus.START);
         payment.cancel();
 
     }

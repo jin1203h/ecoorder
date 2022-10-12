@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scoding.ecoorder.domain.EcoOrder;
 import com.scoding.ecoorder.rest.dto.EcoOrderDTO;
+import com.scoding.ecoorder.rest.dto.EcoPointDTO;
 import com.scoding.ecoorder.service.EcoOrderService;
 
 import lombok.RequiredArgsConstructor;
@@ -48,5 +49,13 @@ public class EcoOrderController {
 
         // return ResponseEntity.ok().body(basketDTO);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+        
+    @GetMapping("/ecoorders/ecopoint/{memberId}")
+    public ResponseEntity<EcoPointDTO> ecoPoint(@PathVariable("memberId") Long memberId) {
+
+        ResponseEntity<EcoPointDTO> ecoPointDTO = ecoOrderService.findEcoPoint(memberId);
+
+        return ecoPointDTO;
     }
 }

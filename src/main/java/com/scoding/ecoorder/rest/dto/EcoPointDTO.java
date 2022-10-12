@@ -10,4 +10,5 @@ import lombok.Setter;
 public class EcoPointDTO implements Serializable {
     private Long memberId;
     private Long ecoPoint;
+    private Long pointId;
 }
