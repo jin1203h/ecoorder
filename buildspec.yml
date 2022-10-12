@@ -40,5 +40,5 @@ phases:
       - sed -i.bak 's#AWS_ECR_URI#'"$AWS_ECR_URI"'#' ./kubernetes/ecoorder.yml
       # - sed -i.bak 's#DATE_STRING#'"$DATE"'#' ./ecoorder.yml
       - echo kubectl set image deployment.apps/ecoorder ecoorder=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMA_TAG
-      # - kubectl delete -f ./kubernetes/ecoorder.yml
+      - kubectl delete -f ./kubernetes/ecoorder.yml
       - kubectl apply -f ./kubernetes/ecoorder.yml
