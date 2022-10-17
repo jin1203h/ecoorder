@@ -93,13 +93,13 @@ public class EcoOrderService {
 
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void cancelEcoOrder(Long ecoOrderId) {
         
         PaymentCanceled  paymentCanceled =  new PaymentCanceled();
 
         EcoOrder ecoOrder = ecoOrderRepository.findOne(ecoOrderId);
-        ecoOrder.cancel();
+        ecoOrder.cancelEcoOrder();
         
         BeanUtils.copyProperties(ecoOrder, paymentCanceled);
         BeanUtils.copyProperties(ecoOrder.getPayment(), paymentCanceled);
@@ -130,10 +130,6 @@ public class EcoOrderService {
     }
 
     public List<EcoOrder> findEcoOrder(Long memberId) {
-
-        ResponseEntity<EcoPointDTO> ecoPointDTO = ecoPointClient.getEcoPointList(memberId);
-        log.debug("ecoPoint = ({})", ecoPointDTO.getBody().toString());
-        log.debug("ecoPoint = ({})", ecoPointDTO.getBody().getEcoPoint());
 
         List<EcoOrder> ecoOrder = ecoOrderRepository.findByMemberlWithPayment(memberId);
 

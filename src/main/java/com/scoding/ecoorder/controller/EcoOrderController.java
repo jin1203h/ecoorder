@@ -2,6 +2,7 @@ package com.scoding.ecoorder.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.jaxb.SpringDataJaxb.OrderDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,7 +40,7 @@ public class EcoOrderController {
    
         ecoOrderService.ecoOrder(ecoOrderDTO);
 
-        return ResponseEntity.ok().body(ecoOrderDTO);
+        return new ResponseEntity<>(ecoOrderDTO, HttpStatus.CREATED);
     }
 
     @PatchMapping("/ecoorders/{ecoOrderId}")
@@ -47,8 +48,7 @@ public class EcoOrderController {
 
             ecoOrderService.cancelEcoOrder(ecoOrderId);
 
-        // return ResponseEntity.ok().body(basketDTO);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
         
     @GetMapping("/ecoorders/ecopoint/{memberId}")

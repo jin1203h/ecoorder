@@ -56,7 +56,7 @@ public class Payment {
     }
 
     // cancel
-    public void cancel() {
+    public void cancelPayment() {
         this.setPaymentStatus(PaymentStatus.CANCEL);
     }
 

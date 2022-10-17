@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter @Setter
 public class BasketDTO {
+    private Long basketId;
     private Long memberId;
     private Long ecoProductId;
     private String ecoProductName;

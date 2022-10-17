@@ -88,21 +88,19 @@ public class EcoOrder {
     }
 
     // cancel order
-    public void cancel() {
+    public void cancelEcoOrder() {
         if (deliveryStatus == DeliveryStatus.START) {
             throw new IllegalStateException("이미 배송이 시작된 상품은 취소가 불가능합니다.");
+        } else {
+            this.setEcoOrderStatus(OrderStatus.CANCLE);
+            payment.cancelPayment();
         }
-
-        this.setEcoOrderStatus(OrderStatus.CANCLE);
-        payment.cancel();
-
     }
 
     // update order
     public void updateDelivery() {
 
         this.setDeliveryStatus(DeliveryStatus.START);
-        payment.cancel();
 
     }
 

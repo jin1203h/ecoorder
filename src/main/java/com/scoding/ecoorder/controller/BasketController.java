@@ -49,8 +49,10 @@ public class BasketController {
     @PostMapping("/baskets")
     public ResponseEntity<BasketDTO> create(@RequestBody BasketDTO basketDTO) {
 
-        basketService.addBasket(basketDTO);
+        Long basketId = basketService.addBasket(basketDTO);
 
+        basketDTO.setBasketId(basketId); 
+        
         return new ResponseEntity<>(basketDTO, HttpStatus.CREATED);
     }
     
@@ -59,6 +61,6 @@ public class BasketController {
 
         basketService.deleteBasket(basketId);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
